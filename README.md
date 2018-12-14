@@ -320,3 +320,22 @@ Total is: 4950
 ```
 
 <b style="color:red">Java Thread Safety</b>
+
+- we know that multiple threads created from same Object share object variables and this can lead to data inconsistency when the threads are used to read and update the shared data.
+
+<b>Thread Safety in Java</b>
+Thread safety in java is the process to make our program safe to use in multithreaded environment, there are different ways through which we can make our program thread safe.
+   + Synchronization is the easiest and most widely used tool for thread safety in java.
+    + Use of locks from java.util.concurrent.locks package
+
+<b>Java synchronized</b>
+Synchronization is the tool using which we can achieve thread safety, JVM guarantees that synchronized code will be executed by only one thread at a time.
++ Java synchronization works on locking and unlocking of resource, before any thread enters into synchronized code, it has to acquire lock on the Object and when code execution ends, it unlocks the resource that can be locked by other threads. In the mean time other threads are in wait state to lock the synchronized resource.
+
+<b  style="color:red">Concurency</b>
+Concurrency means that an application is making progress on more than one task at the same time (concurrently). Well, if the computer only has one CPU the application may not make progress on more than one task at exactly the same time, but more than one task is being processed at a time inside the application. It does not completely finish one task before it begins the next.
+![img](./images/concurrency.png)
+
+<b style="color:red">Threadpool</b>
+
+<b style="color:red">Executors.</b>
