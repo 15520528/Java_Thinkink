@@ -337,5 +337,75 @@ Concurrency means that an application is making progress on more than one task a
 ![img](./images/concurrency.png)
 
 <b style="color:red">Threadpool</b>
+Java thread pool manages the pool of worker threads, it contains a queue that keeps tasks waiting to get executed. We can use ThreadPoolExecutor to create thread pool in Java.
 
+Java thread pool manages the collection of Runnable threads and worker threads execute Runnable from the queue. java.util.concurrent.Executors provide factory and support methods for java.util.concurrent.Executor interface to create the thread pool in java.
+
+see `ExecutorService` Example
+
+```
+class WorkerThread implements Runnable {
+  
+    private String command;
+    
+    public WorkerThread(String s){
+        this.command=s;
+    }
+
+    @Override
+    public void run() {
+        System.out.println(Thread.currentThread().getName()+" Start. Command = "+command);
+        processCommand();
+        System.out.println(Thread.currentThread().getName()+" End.");
+    }
+
+    private void processCommand() {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public String toString(){
+        return this.command;
+    }
+}
+```
+```
+public class SimpleThreadPool {
+
+    public static void main(String[] args) {
+        ExecutorService executor = Executors.newFixedThreadPool(5);
+        for (int i = 0; i < 10; i++) {
+            Runnable worker = new WorkerThread("" + i);
+            executor.execute(worker);
+          }
+        executor.shutdown();
+        while (!executor.isTerminated()) {
+        }
+        System.out.println("Finished all threads");
+    }
+}
+```
+![thread](./images/tprun1.jpg)
+<i>Thread Pool executing first three tasks</i>
+
+![thread](./images/tprun1.jpg)
+<i>Thread Pool executing task 4 and 5</i>
+
+In the above program, we are creating a fixed size thread pool of 5 worker threads. Then we are submitting 10 jobs to this pool, since the pool size is 5, it will start working on 5 jobs and other jobs will be in wait state, as soon as one of the job is finished, another job from the wait queue will be picked up by worker thread and get’s executed.
+
+see `ThreadPoolExecutor` Example below
+ 
+<b>Risks in using Thread Pools</b>
++ 
+
+<b>Important Points</b>
++ Don’t queue tasks that concurrently wait for results from other tasks. This can lead to a situation of deadlock as described above.
++ Be careful while using threads for a long lived operation. It might result in the thread waiting forever and would eventually lead to resource leakage.
+
+[Tham Khảo về thread pool](https://www.geeksforgeeks.org/thread-pools-java/)
 <b style="color:red">Executors.</b>
+
